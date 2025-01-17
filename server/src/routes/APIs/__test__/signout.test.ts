@@ -2,9 +2,10 @@ import request from 'supertest';
 import { app } from '../../../app';
 
 it('clear the cookie after signing out', async () => {
-	await request(app)
+	const signupResponse = await request(app)
 		.post('/api/users/signup')
 		.send({
+			name: 'Test User',
 			email: 'signout@test.com',
 			password: 'password1234',
 		})
