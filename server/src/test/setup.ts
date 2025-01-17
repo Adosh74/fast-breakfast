@@ -8,10 +8,12 @@ import { app } from '../app';
 interface GlobalSigninOutput {
 	cookie: string[];
 	user: {
+		name: string;
 		email: string;
 		password: string;
 	};
 }
+
 declare global {
 	var signin: () => Promise<GlobalSigninOutput>;
 }
@@ -19,9 +21,7 @@ declare global {
 beforeAll(async () => {
 	process.env.JWT_KEY = 'asdf';
 	process.env.NODE_ENV = 'test';
-	await mongoose.connect(process.env.MONGO_TEST_URI!, {
-		dbName: 'test',
-	});
+	await mongoose.connect(process.env.MONGO_TEST_URI!);
 });
 
 beforeEach(async () => {
@@ -39,6 +39,7 @@ afterAll(async () => {
 
 global.signin = async () => {
 	const userData = {
+		name: 'Test User',
 		email: 'signin@test.com',
 		password: 'password',
 	};
