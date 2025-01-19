@@ -1,8 +1,6 @@
+import { serverEnv } from '../config';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import { config } from 'dotenv';
-config();
-
 import { app } from '../app';
 
 interface GlobalSigninOutput {
@@ -19,9 +17,7 @@ declare global {
 }
 
 beforeAll(async () => {
-	process.env.JWT_KEY = 'asdf';
-	process.env.NODE_ENV = 'test';
-	await mongoose.connect(process.env.MONGO_TEST_URI!);
+	await mongoose.connect(serverEnv.mongoTestURI);
 });
 
 beforeEach(async () => {

@@ -6,6 +6,7 @@ import { NotFound } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
 import { requestLoggerMiddleware } from './middlewares/request-logger';
 import { routes } from './routes';
+import { serverEnv } from './config';
 
 const app = express();
 
@@ -14,11 +15,11 @@ app.use(json());
 app.use(
 	cookieSession({
 		signed: false,
-		secure: process.env.NODE_ENV !== 'test',
+		secure: serverEnv.nodeEnv === 'production',
 	})
 );
 
-if (process.env.NODE_ENV !== 'test') {
+if (serverEnv.nodeEnv !== 'test') {
 	app.use(requestLoggerMiddleware);
 }
 

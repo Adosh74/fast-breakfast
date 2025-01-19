@@ -15,6 +15,8 @@ interface UserDoc extends Document {
 	name: string;
 	email: string;
 	password: string;
+	role: string;
+	passwordChangedAt?: Date;
 }
 
 const userSchema = new Schema(
@@ -31,6 +33,17 @@ const userSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		role: {
+			type: String,
+			enum: ['user', 'admin'],
+			default: 'user',
+		},
+		passwordChangedAt: Date,
+		passwordResetToken: String,
+		passwordResetExpires: Date,
+		hashedOtp: String,
+		otpExpires: Date,
+		otpTries: Number,
 	},
 	{
 		toJSON: {
@@ -43,6 +56,8 @@ const userSchema = new Schema(
 		},
 	}
 );
+
+userSchema.index({ email: 1 }, { unique: true });
 
 userSchema.pre('save', async function (done) {
 	if (this.isModified('password')) {

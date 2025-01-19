@@ -1,10 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
 import { User } from '../../../models/user';
 import { validateRequest } from '../../../middlewares/validate-request';
 import { BadRequestError } from '../../../errors/bad-request-error';
+import { serverEnv } from '../../../config';
 
 const router = Router();
 
@@ -32,7 +33,6 @@ router.post(
 		const existingUser = await User.findOne({ email });
 
 		if (existingUser) {
-			console.log('Email in use');
 			throw new BadRequestError('Email in use');
 		}
 
@@ -47,7 +47,7 @@ router.post(
 				email: user.email,
 				name: user.name,
 			},
-			process.env.JWT_KEY!
+			serverEnv.jwtKey
 		);
 
 		req.session = {

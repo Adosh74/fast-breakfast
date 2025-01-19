@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../../app';
+import { app } from '../../../../app';
 
 it('responds with details about current user', async () => {
 	const signinData = await signin();

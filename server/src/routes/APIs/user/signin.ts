@@ -6,6 +6,7 @@ import { validateRequest } from '../../../middlewares/validate-request';
 import { Password } from '../../../services/password';
 import { User } from '../../../models/user';
 import { BadRequestError } from '../../../errors/bad-request-error';
+import { serverEnv } from '../../../config';
 
 const router = Router();
 
@@ -33,7 +34,7 @@ router.post(
 				email: existingUser.email,
 				name: existingUser.name,
 			},
-			process.env.JWT_KEY!
+			serverEnv.jwtKey
 		);
 
 		req.session = {

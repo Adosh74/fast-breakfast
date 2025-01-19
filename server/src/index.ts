@@ -1,21 +1,18 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { config } from 'dotenv';
-
-config();
+import { serverEnv } from './config';
+import { LOGGER } from './logging';
 
 (async () => {
-	if (!process.env.JWT_KEY) {
-		throw new Error('JWT_KEY must be defined');
-	}
 	try {
-		const connection = await mongoose.connect(process.env.MONGO_URI!);
-		console.log('Connected to MongoDB', connection.connection.db?.databaseName);
+		const connection = await mongoose.connect(serverEnv.mongoURI);
+		LOGGER.info('Connected to MongoDB', connection.connection.db?.databaseName);
 	} catch (err) {
-		console.error(err);
+		LOGGER.error(err);
+		process.exit(1);
 	}
 
-	app.listen(process.env.PORT!, () => {
-		console.log(`Server listening on port ${process.env.PORT}!!!!`);
+	app.listen(serverEnv.port, () => {
+		LOGGER.info(`Server listening on port ${serverEnv.port}!!!!`);
 	});
 })();
