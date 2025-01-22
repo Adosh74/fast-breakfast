@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { serverEnv } from '../config';
+import { User, UserDoc } from '../models/user';
 
 interface UserPayload {
 	id: string;
@@ -11,19 +12,26 @@ interface UserPayload {
 declare global {
 	namespace Express {
 		interface Request {
-			currentUser?: UserPayload;
+			currentUser?: UserDoc;
 		}
 	}
 }
 
-export const currentUser = (req: Request, _res: Response, next: NextFunction) => {
+export const currentUser = async (req: Request, _res: Response, next: NextFunction) => {
 	if (!req.session?.jwt) {
 		return next();
 	}
 
 	try {
 		const payload = jwt.verify(req.session.jwt, serverEnv.jwtKey) as UserPayload;
-		req.currentUser = payload;
+
+		const currentUser = await User.findById(payload.id);
+
+		if (!currentUser) {
+			return next();
+		}
+
+		req.currentUser = currentUser;
 	} catch (error) {
 		return next();
 	}
