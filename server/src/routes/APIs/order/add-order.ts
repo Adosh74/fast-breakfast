@@ -12,15 +12,14 @@ router.post(
 	currentUser,
 	requireAuth,
 	[
-		body('userId').isString().withMessage('userId must be a string'),
 		body('items').isArray().withMessage('items must be an array'),
 		body('items.*.itemId').isString().withMessage('itemId must be a string'),
 		body('items.*.quantity').isNumeric().withMessage('quantity must be a number'),
 	],
 	validateRequest,
 	async (req: Request, res: Response) => {
-		const { userId, items } = req.body;
-
+		const { items } = req.body;
+		const userId = req.currentUser!.id;
 		const order = Order.build({ userId, items });
 
 		await order.save();
