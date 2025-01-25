@@ -1,4 +1,5 @@
 import { Schema, model, Model, Document } from 'mongoose';
+import { UserDoc } from './user';
 
 interface OrderAttrs {
 	userId: string;
@@ -10,22 +11,24 @@ interface OrderModel extends Model<OrderDoc> {
 }
 
 interface OrderDoc extends Document {
-	userId: string;
-	items: { itemId: string; quantity: number }[];
+	userId: UserDoc;
+	items: { itemId: Schema.Types.ObjectId; quantity: number }[];
 	day: string;
+	received: boolean;
+	createAt: Number;
 }
 
 const OrderSchema = new Schema(
 	{
 		userId: {
-			type: String,
+			type: Schema.Types.ObjectId,
 			ref: 'User',
 			required: true,
 		},
 		items: [
 			{
 				itemId: {
-					type: String,
+					type: Schema.Types.ObjectId,
 					ref: 'Item',
 					required: true,
 				},
@@ -39,6 +42,14 @@ const OrderSchema = new Schema(
 			type: String,
 			default: new Date().toISOString().slice(0, 10),
 		},
+		received: {
+			type: Boolean,
+			default: false,
+		},
+		createdAt: {
+			type: Number,
+			default: Math.floor(Date.now() / 1000),
+		},
 	},
 	{
 		toJSON: {
@@ -50,6 +61,8 @@ const OrderSchema = new Schema(
 		},
 	}
 );
+
+OrderSchema.index({ day: 1 });
 
 OrderSchema.pre('find', function () {
 	this.populate('items.itemId');
