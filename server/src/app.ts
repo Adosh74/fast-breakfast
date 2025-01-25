@@ -2,6 +2,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 import express from 'express';
 import 'express-async-errors';
+import cors from 'cors';
 import { NotFound } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
 import { requestLoggerMiddleware } from './middlewares/request-logger';
@@ -10,6 +11,7 @@ import { serverEnv } from './config';
 
 const app = express();
 
+app.use(cors());
 app.set('trust proxy', true);
 app.use(json());
 app.use(
