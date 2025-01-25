@@ -4,7 +4,7 @@
   "main": "",
   "type": "module",
   "scripts": {
-    "build:client": "cd client && npm install &&npm run build",
+    "build:client": "cd client && npm install && npm run build",
     "build:server": "cd server && npm install && npm run build",
     "build": "concurrently \"npm run build:client\" \"npm run build:server\"",
     "env": "node deployment.js",
