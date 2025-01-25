@@ -2,9 +2,9 @@ import { config } from 'dotenv';
 
 config();
 
-const { NODE_NEV, PORT, MONGO_URI, MONGO_TEST_URI, JWT_KEY, PEPPER } = process.env;
+const { NODE_ENV, PORT, MONGO_URI, MONGO_TEST_URI, JWT_KEY, PEPPER } = process.env;
 
-if (!JWT_KEY || !PEPPER || !MONGO_URI || !MONGO_TEST_URI || !PORT || !NODE_NEV) {
+if (!JWT_KEY || !PEPPER || !MONGO_URI || !MONGO_TEST_URI || !PORT || !NODE_ENV) {
 	throw new Error('Some environment variables are missing');
 }
 
@@ -18,7 +18,7 @@ interface ServerEnv {
 }
 
 const serverEnv: ServerEnv = {
-	nodeEnv: NODE_NEV,
+	nodeEnv: NODE_ENV,
 	port: PORT,
 	mongoURI: MONGO_URI,
 	mongoTestURI: MONGO_TEST_URI,
