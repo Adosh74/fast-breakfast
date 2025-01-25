@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/error-handler';
 import { requestLoggerMiddleware } from './middlewares/request-logger';
 import { routes } from './routes';
 import { serverEnv } from './config';
+import path from 'path';
 
 const app = express();
 
@@ -23,6 +24,10 @@ app.use(
 
 if (serverEnv.nodeEnv !== 'test') {
 	app.use(requestLoggerMiddleware);
+}
+
+if (serverEnv.nodeEnv === 'production') {
+	app.use(express.static(path.join(__dirname, '../../client/dist')));
 }
 
 app.use('/api', routes);
