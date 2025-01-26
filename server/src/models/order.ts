@@ -1,5 +1,6 @@
 import { Schema, model, Model, Document } from 'mongoose';
 import { UserDoc } from './user';
+import moment from 'moment';
 
 interface OrderAttrs {
 	userId: string;
@@ -40,7 +41,7 @@ const OrderSchema = new Schema(
 		],
 		day: {
 			type: String,
-			default: new Date().toISOString().slice(0, 10),
+			default: moment().format('YYYY-MM-DD'),
 		},
 		received: {
 			type: Boolean,
@@ -48,7 +49,7 @@ const OrderSchema = new Schema(
 		},
 		createdAt: {
 			type: Number,
-			default: Math.floor(Date.now() / 1000),
+			default: moment().unix(),
 		},
 	},
 	{

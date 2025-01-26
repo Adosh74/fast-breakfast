@@ -1,6 +1,7 @@
 import { Schema, model, Model, Document } from 'mongoose';
 import { Order } from './order';
 import { User, UserDoc } from './user';
+import moment from 'moment';
 
 interface ReceiptAttrs {
 	name: string;
@@ -26,7 +27,7 @@ interface ReceiptModel extends Model<ReceiptDoc> {
 const ReceiptSchema = new Schema(
 	{
 		name: { type: String, required: true },
-		day: { type: String, default: new Date().toISOString().slice(0, 10) },
+		day: { type: String, default: moment().format('YYYY-MM-DD') },
 		ordersId: [{ type: String, ref: 'Order' }],
 		title: String,
 		total: Number,
@@ -38,7 +39,7 @@ const ReceiptSchema = new Schema(
 		],
 		createdAt: {
 			type: Number,
-			default: Math.floor(Date.now() / 1000),
+			default: moment().unix(),
 		},
 	},
 	{

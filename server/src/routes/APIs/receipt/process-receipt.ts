@@ -6,6 +6,7 @@ import { Receipt } from '../../../models/receipt';
 import { body } from 'express-validator';
 import { validateRequest } from '../../../middlewares/validate-request';
 import { NotFound } from '../../../errors/not-found-error';
+import moment from 'moment';
 
 import { startSession } from 'mongoose';
 
@@ -20,7 +21,7 @@ router.post(
 	async (req: Request, res: Response) => {
 		const { name } = req.body;
 
-		const day = new Date().toISOString().slice(0, 10);
+		const day = moment().format('YYYY-MM-DD');
 
 		const orders = await Order.find({ day, received: false }, { _id: 1 });
 
