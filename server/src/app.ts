@@ -32,9 +32,9 @@ if (serverEnv.nodeEnv === 'production') {
 
 app.use('/api', routes);
 
-app.all('*', () => {
-	throw new NotFound();
-});
+// app.all('*', () => {
+// 	throw new NotFound();
+// });
 
 app.use(errorHandler);
 
