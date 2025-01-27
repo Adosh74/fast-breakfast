@@ -38,4 +38,10 @@ app.use('/api', routes);
 
 app.use(errorHandler);
 
+if (serverEnv.nodeEnv === 'production') {
+	app.get('*', (_req, res) =>
+		res.sendFile(path.join(__dirname, '../../client/dist/index.html'))
+	);
+}
+
 export { app };
