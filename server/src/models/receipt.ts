@@ -7,6 +7,7 @@ interface ReceiptAttrs {
 	name: string;
 	day: string;
 	ordersId: string[];
+	createdAt: number;
 	total?: number;
 	userTotals?: Array<{ userId: string; total: number }>;
 }

@@ -30,8 +30,9 @@ router.post(
 		}
 
 		const ordersId = orders.map((order) => order.id);
+		const createdAt = moment().unix();
 
-		const receipt = Receipt.build({ name, day, ordersId });
+		const receipt = Receipt.build({ name, day, ordersId, createdAt });
 
 		await Order.updateMany({ _id: { $in: ordersId } }, { received: true });
 

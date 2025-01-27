@@ -5,6 +5,8 @@ import moment from 'moment';
 interface OrderAttrs {
 	userId: string;
 	items: { itemId: string; quantity: number }[];
+	createdAt: number;
+	day: string;
 }
 
 interface OrderModel extends Model<OrderDoc> {
