@@ -1,18 +1,22 @@
-import fs from 'fs';
+import fsPromise from 'fs/promises';
 
 
-(() => {
+(async () => {
+    try {
+        const envFilePath = `${process.cwd()}/.env`;
 
-    //print all files in the current directory
-    fs.readdirSync(process.cwd()).forEach(file => {
-        console.log(file);
-    });
-    // print working directory
-    console.log(process.cwd());
 
-    const env = fs.readFileSync(`${process.cwd()}/.env`, 'utf8');
-    fs.writeFileSync('./server/.env', env);
-    console.log('env copied to server');
+        if(!(await fsPromise.stat(envFilePath)).isFile()) {
+            console.error('No .env file found');
+            process.exit(1);
+        }
+
+        const env = await fsPromise.readFile(envFilePath, 'utf8');
+        await fsPromise.writeFile('./server/.env', env);
         
-    process.exit();
+        console.log('Env file copied successfully');
+    } catch (error) {
+        console.error('Error copying env file', error);
+        process.exit(1);
+    }
 })();
