@@ -61,7 +61,11 @@ export default function Receipts() {
       ?.filter(order => order.userId?.id === userId)
       ?.flatMap(order => order.items)
       ?.reduce((acc, item) => {
-        const existing = acc.find(i => i.itemId.id === item.itemId.id);
+        // Group by item name AND price to handle items with same name but different prices
+        const existing = acc.find(i => 
+          i.itemId.name === item.itemId.name && 
+          i.itemId.price === item.itemId.price
+        );
         existing ? existing.quantity += item.quantity : acc.push({ ...item });
         return acc;
       }, []) || [];
