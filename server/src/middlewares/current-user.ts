@@ -27,7 +27,7 @@ export const currentUser = async (req: Request, _res: Response, next: NextFuncti
 
 		const currentUser = await User.findById(payload.id);
 
-		if (!currentUser) {
+		if (!currentUser || !currentUser.active) {
 			return next();
 		}
 
