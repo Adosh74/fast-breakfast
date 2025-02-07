@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import AdminOrders from './pages/AdminOrders';
 import Receipts from './pages/Receipts';
 import ProtectedRoute from './components/ProtectedRoute';
+import Users from './pages/Users';
+import Statistics from './pages/Statistics';
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/receipts" element={<Receipts />} />
+          <Route path="/admin/users" element={<Users />} />
+          <Route path="/statistics" element={<Statistics />} />
         </Route>
         
         <Route path="*" element={<Navigate to="/" />} />
