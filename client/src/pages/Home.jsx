@@ -13,6 +13,7 @@ export default function Home() {
   const [myOrders, setMyOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMyOrders, setLoadingMyOrders] = useState(false);
+  const [submittingOrder, setSubmittingOrder] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,6 +66,7 @@ export default function Home() {
 
   const handleSubmitOrder = async () => {
     try {
+      setSubmittingOrder(true);
       const orderData = {
         items: selectedItems.map(({ itemId, quantity }) => ({ itemId, quantity }))
       };
@@ -75,8 +77,9 @@ export default function Home() {
       setShowOrderPanel(false);
     } catch (err) {
       console.error(err);
-      
       toast.error('Failed to place order');
+    } finally {
+      setSubmittingOrder(false);
     }
   };
 
@@ -119,33 +122,53 @@ export default function Home() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Good Morning, {user?.name}</h1>
-          <div className="flex gap-4">
+          <div className="flex flex-nowrap gap-2">
             <button
-            onClick={() => navigate('/admin/receipts')}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              onClick={() => navigate('/statistics')}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
             >
-            📑 View Receipts
+              📈 Statistics
             </button>
+            
+            <button
+              onClick={() => navigate('/admin/receipts')}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            >
+              📑 View Receipts
+            </button>
+            
             {user?.role === 'admin' && (
-              <button
-                onClick={() => navigate('/admin/orders')}
-                className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
-              >
-                📊 Process Orders
-              </button>
+              <>
+                <button
+                  onClick={() => navigate('/admin/orders')}
+                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+                >
+                  📊 Process Orders
+                </button>
+                
+                <button
+                  onClick={() => navigate('/admin/users')}
+                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+                >
+                  👤 Users
+                </button>
+              </>
             )}
+            
             <button
               onClick={handleMyOrdersClick}
               className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600"
             >
               📋 My Orders
             </button>
+            
             <button
               onClick={() => setShowOrderPanel(!showOrderPanel)}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 relative"
             >
               🛒 View Order ({totalItems})
             </button>
+            
             <button 
               onClick={() => navigate('/signin')}
               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
@@ -215,9 +238,12 @@ export default function Home() {
                 </div>
                 <button
                   onClick={handleSubmitOrder}
-                  className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors"
+                  disabled={submittingOrder}
+                  className={`w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors ${
+                    submittingOrder ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
-                  Place Order
+                  {submittingOrder ? 'Placing Order...' : 'Place Order'}
                 </button>
               </div>
             )}
