@@ -28,6 +28,9 @@ router.post(
 
 		if (!passwordMatch) throw new BadRequestError('Invalid credentials');
 
+		if (!existingUser.active)
+			throw new BadRequestError('User is deactivated by admin');
+
 		const userJwt = jwt.sign(
 			{
 				id: existingUser._id,
