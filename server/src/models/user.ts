@@ -16,6 +16,7 @@ export interface UserDoc extends Document {
 	email: string;
 	password: string;
 	role: string;
+	active: boolean;
 	passwordChangedAt?: Date;
 }
 
@@ -37,6 +38,10 @@ const userSchema = new Schema(
 			type: String,
 			enum: ['user', 'admin'],
 			default: 'user',
+		},
+		active: {
+			type: Boolean,
+			default: true,
 		},
 		passwordChangedAt: Date,
 		passwordResetToken: String,
