@@ -4,7 +4,6 @@ import { validateRequest } from '../../../middlewares/validate-request';
 import { Order } from '../../../models/order';
 import { currentUser } from '../../../middlewares/current-user';
 import { requireAuth } from '../../../middlewares/require-auth';
-import moment from 'moment';
 
 const router = Router();
 
@@ -21,9 +20,8 @@ router.post(
 	async (req: Request, res: Response) => {
 		const { items } = req.body;
 		const userId = req.currentUser!.id;
-		const createdAt = moment().unix();
-		const day = moment().format('YYYY-MM-DD');
-		const order = Order.build({ userId, items, createdAt, day });
+
+		const order = Order.build({ userId, items });
 
 		await order.save();
 

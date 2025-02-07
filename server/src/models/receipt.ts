@@ -5,9 +5,7 @@ import moment from 'moment';
 
 interface ReceiptAttrs {
 	name: string;
-	day: string;
 	ordersId: string[];
-	createdAt: number;
 	total?: number;
 	userTotals?: Array<{ userId: string; total: number }>;
 }
@@ -28,7 +26,10 @@ interface ReceiptModel extends Model<ReceiptDoc> {
 const ReceiptSchema = new Schema(
 	{
 		name: { type: String, required: true },
-		day: { type: String, default: moment().format('YYYY-MM-DD') },
+		day: {
+			type: String,
+			default: () => moment().format('YYYY-MM-DD'),
+		},
 		ordersId: [{ type: String, ref: 'Order' }],
 		title: String,
 		total: Number,
@@ -40,7 +41,7 @@ const ReceiptSchema = new Schema(
 		],
 		createdAt: {
 			type: Number,
-			default: moment().unix(),
+			default: () => moment().unix(),
 		},
 	},
 	{

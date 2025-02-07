@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Schema, model, Model, Document } from 'mongoose';
 
 interface ItemAttrs {
@@ -14,6 +15,7 @@ interface ItemDoc extends Document {
 	name: string;
 	price: number;
 	avatar: string;
+	createdAt: number;
 }
 
 const itemSchema = new Schema(
@@ -31,6 +33,10 @@ const itemSchema = new Schema(
 			required: true,
 			default:
 				'https://i.pinimg.com/736x/53/3d/f3/533df3bc8e2a52135b632fa46316d3e7--middle-eastern-recipes-restaurant-recipes.jpg',
+		},
+		createdAt: {
+			type: Number,
+			default: () => moment.utc().unix(),
 		},
 	},
 	{

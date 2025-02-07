@@ -5,8 +5,6 @@ import moment from 'moment';
 interface OrderAttrs {
 	userId: string;
 	items: { itemId: string; quantity: number }[];
-	createdAt: number;
-	day: string;
 }
 
 interface OrderModel extends Model<OrderDoc> {
@@ -43,7 +41,7 @@ const OrderSchema = new Schema(
 		],
 		day: {
 			type: String,
-			default: moment().format('YYYY-MM-DD'),
+			default: () => moment().format('YYYY-MM-DD'),
 		},
 		received: {
 			type: Boolean,
@@ -51,7 +49,7 @@ const OrderSchema = new Schema(
 		},
 		createdAt: {
 			type: Number,
-			default: moment().unix(),
+			default: () => moment().unix(),
 		},
 	},
 	{
