@@ -121,40 +121,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-100 p-4 relative">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Good Morning, {user?.name}</h1>
           <div className="flex flex-nowrap gap-2">
-            <button
-              onClick={() => navigate('/statistics')}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-            >
-              📈 Statistics
-            </button>
-            
-            <button
-              onClick={() => navigate('/admin/receipts')}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-            >
-              📑 View Receipts
-            </button>
-            
-            {user?.role === 'admin' && (
-              <>
-                <button
-                  onClick={() => navigate('/admin/orders')}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
-                >
-                  📊 Process Orders
-                </button>
-                
-                <button
-                  onClick={() => navigate('/admin/users')}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
-                >
-                  👤 Users
-                </button>
-              </>
-            )}
-            
             <button
               onClick={handleMyOrdersClick}
               className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600"
@@ -167,13 +134,6 @@ export default function Home() {
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 relative"
             >
               🛒 View Order ({totalItems})
-            </button>
-            
-            <button 
-              onClick={() => navigate('/signin')}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-            >
-              Sign Out
             </button>
           </div>
         </div>
