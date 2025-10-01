@@ -64,6 +64,7 @@ const OrderSchema = new Schema(
 );
 
 OrderSchema.index({ day: 1 });
+OrderSchema.index({ createdAt: -1 }, { background: true });
 
 OrderSchema.pre('find', function () {
 	this.populate('items.itemId');
